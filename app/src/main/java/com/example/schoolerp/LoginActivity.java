@@ -7,6 +7,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.schoolerp.controller.Controller;
+
 public class LoginActivity extends AppCompatActivity {
 
     EditText login_mobile_number, login_password;
@@ -28,6 +30,8 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Controller ct = new Controller();
+                ct.getinfo();
                 String number = login_mobile_number.getText().toString();
                 String password = login_password.getText().toString();
 
