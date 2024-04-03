@@ -46,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
         forgotPasswordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, VerifyOTPActivity.class);
+                Intent intent = new Intent(LoginActivity.this, SendOTPActivity.class);
                 startActivity(intent);
             }
         });
