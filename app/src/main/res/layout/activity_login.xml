@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:background="#FAC21F"
+            android:background="@color/yellow"
             android:orientation="vertical"
             android:padding="24dp">
 
@@ -83,12 +83,13 @@
              <Button
                  android:id="@+id/forgotpassword"
                  android:layout_width="194dp"
-                 android:layout_height="wrap_content"
-                 android:layout_marginStart="110dp"
-                 android:backgroundTint="@color/darkyellow"
+                 android:layout_height="29dp"
+                 android:layout_marginStart="100dp"
+                 android:background="@color/transparent"
                  android:text="@string/forgot_password"
                  android:textColor="@color/black"
-                 android:textSize="15sp" />
+                 android:textSize="11sp" />
+
              <Button
                  android:id="@+id/Login_button"
                  android:layout_width="match_parent"
@@ -117,11 +118,12 @@
                     android:id="@+id/signup"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/yellow"
+                    android:background="@color/transparent"
+                    android:paddingEnd="40dp"
                     android:text="@string/signup"
                     android:textAlignment="textEnd"
                     android:textColor="@color/black"
-                    android:textSize="15sp"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
 
             </LinearLayout>

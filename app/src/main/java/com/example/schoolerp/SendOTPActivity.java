@@ -2,9 +2,11 @@ package com.example.schoolerp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,9 +14,15 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.schoolerp.apiservices.ApiService;
+import com.example.schoolerp.controller.Controller;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class SendOTPActivity extends AppCompatActivity {
 
-    EditText inputMobile;
+    private EditText inputMobile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,46 +36,56 @@ public class SendOTPActivity extends AppCompatActivity {
         });
 
         inputMobile = findViewById(R.id.inputMobile);
-        Button button = findViewById(R.id.buttonGetotp);
-        button.setOnClickListener(new View.OnClickListener() {
+        Button buttonGetOTP = findViewById(R.id.buttonGetotp);
+        buttonGetOTP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (validateMobileNumber()) {
-                    // Proceed to the next activity if mobile number is valid
-                    Intent intent = new Intent(SendOTPActivity.this, VerifyOTPActivity.class);
-                    startActivity(intent);
+                    // Proceed to get OTP if mobile number is valid
+                    String mobileNumber = inputMobile.getText().toString().trim();
+                    sendOTP(mobileNumber);
                 }
             }
         });
     }
 
     private boolean validateMobileNumber() {
-
         String mobileNumber = inputMobile.getText().toString().trim();
-        // Check if the mobile number consists of only digits and has a length of exactly 10 characters
-
-        if (mobileNumber.isEmpty() ) {
-            inputMobile.setError("FIELD CANNOT BE EMPTY");
+        if (mobileNumber.length() != 10) {
+            inputMobile.setError("Please enter a valid 10-digit mobile number");
             inputMobile.requestFocus();
             return false;
-        }   else if (mobileNumber.length() > 10) {
-            inputMobile.requestFocus();
-            inputMobile.setError("INVALID");
-            return false;
-        }   else if (mobileNumber.length() < 10) {
-            inputMobile.requestFocus();
-            inputMobile.setError("INVALID");
-            return false;
-        } else if (mobileNumber.matches("[0-9]+")) {
-            inputMobile.requestFocus();
-
         }
         return true;
     }
 
-    private boolean isValidMobileNumber(String mobileNumber) {
-        // You can define your own validation logic here
-        // For example, checking if it consists of only digits and has a specific length
-        return mobileNumber.matches("[0-9]+") && mobileNumber.length() == 10;
+    private void sendOTP(String mobileNumber) {
+        // Initialize Retrofit service
+        ApiService apiService = Controller.getApiService();
+
+        // Call the API to send OTP
+        Call<Void> call = apiService.sendOTP(mobileNumber);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    // OTP sent successfully, proceed to verify OTP
+                    Intent intent = new Intent(SendOTPActivity.this, VerifyOTPActivity.class);
+                    intent.putExtra("mobileNumber", mobileNumber);
+                    startActivity(intent);
+                } else {
+                    // Failed to send OTP, show error message
+                    Toast.makeText(SendOTPActivity.this, "Failed to send OTP. Please try again.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                // Error occurred while sending OTP, log the error
+                Log.e("SendOTPActivity", "Error sending OTP: " + t.getMessage());
+                // Show error message
+                Toast.makeText(SendOTPActivity.this, "Failed to send OTP. Please try again.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

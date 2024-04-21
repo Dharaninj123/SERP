@@ -1,55 +1,49 @@
 package com.example.schoolerp;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import java.util.regex.Pattern;
 import android.app.DatePickerDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.Toast;
+import androidx.annotation.NonNull;
+import java.util.Calendar;
+import androidx.appcompat.app.AppCompatActivity;
+import com.example.schoolerp.apiservices.ApiService;
+import com.example.schoolerp.controller.Controller;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
+
 import java.util.Calendar;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SignupActivity extends AppCompatActivity {
 
-
-    EditText signup_name, signup_dob, signup_password, signup_confirm_password;
+    private EditText signup_name, signup_dob, signup_password, signup_confirm_password;
     private Calendar calendar;
-
+    private ApiService apiService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_sign_up);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-
 
         signup_name = findViewById(R.id.signup_name);
         signup_dob = findViewById(R.id.signup_dob);
         signup_password = findViewById(R.id.signup_password);
         signup_confirm_password = findViewById(R.id.signup_confirm_password);
 
-
         Button signup_button = findViewById(R.id.signup_button);
+        Button login_button = findViewById(R.id.login2);
+
         signup_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,72 +55,98 @@ public class SignupActivity extends AppCompatActivity {
                 validateInfo(name, dob, password, confirmPassword);
             }
         });
+
+        login_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(SignupActivity.this, LoginActivity.class));
+            }
+        });
+
+        signup_dob.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog();
+            }
+        });
+
+        // Initialize Retrofit service
+        apiService = Controller.getApiService();
+
+        // Step 1: Retrieve the token from Firebase Messaging
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (task.isSuccessful() && task.getResult() != null) {
+                            String token = task.getResult();
+                            // Step 2: Store the token in SharedPreferences
+                            saveTokenToSharedPreferences(token);
+                        }
+                    }
+                });
     }
 
     private void validateInfo(String name, String dob, String password, String confirmPassword) {
-        if (name.isEmpty()) {
-            signup_name.setError("Name cannot be empty");
-            signup_name.requestFocus();
-            return;
+        if (TextUtils.isEmpty(name) || TextUtils.isEmpty(dob) || TextUtils.isEmpty(password) || TextUtils.isEmpty(confirmPassword)) {
+            Toast.makeText(this, "All fields are required", Toast.LENGTH_SHORT).show();
+        } else if (!password.equals(confirmPassword)) {
+            Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+        } else {
+            // If all validations pass, perform signup
+            signup(name, dob, password);
         }
-
-        if (dob.isEmpty()) {
-            signup_dob.setError("Date of birth cannot be empty");
-            signup_dob.requestFocus();
-            return;
-        }
-
-        if (password.isEmpty()) {
-            signup_password.setError("Password cannot be empty");
-            signup_password.requestFocus();
-            return;
-        }
-
-        if (confirmPassword.isEmpty()) {
-            signup_confirm_password.setError("Confirm Password cannot be empty");
-            signup_confirm_password.requestFocus();
-            return;
-        }
-
-        if (!password.equals(confirmPassword)) {
-            signup_confirm_password.setError("Passwords do not match");
-            signup_confirm_password.requestFocus();
-            return;
-        }
-
-        // If all validations pass, you can proceed with your signup process
-        // For example, you can start the LoginActivity
-        Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
-        startActivity(intent);
     }
 
-    public void sign_dob(View view) {
-        // Get current date to set as default in the date picker dialog
-        Calendar calendar = Calendar.getInstance();
+    private void signup(String name, String dob, String password) {
+        SignupRequest signupRequest = new SignupRequest();
+        signupRequest.setName(name);
+        signupRequest.setDob(dob);
+        signupRequest.setPassword(password);
+
+        // Call the signup API using Retrofit
+        Call<SignupResponse> signupResponseCall = apiService.signupUser(signupRequest);
+        signupResponseCall.enqueue(new Callback<SignupResponse>() {
+            @Override
+            public void onResponse(Call<SignupResponse> call, Response<SignupResponse> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(SignupActivity.this, "Signup Successful", Toast.LENGTH_SHORT).show();
+                    // You can add additional logic here such as starting a new activity or updating UI
+                } else {
+                    Toast.makeText(SignupActivity.this, "Signup Failed", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SignupResponse> call, Throwable t) {
+                Toast.makeText(SignupActivity.this, "Signup Failed" , Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void showDatePickerDialog() {
+        calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
-        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        showDatePickerDialog(year, month, dayOfMonth);
-    }
-
-    private void showDatePickerDialog(int year, int month, int dayOfMonth) {
-        DatePickerDialog datePickerDialog = new DatePickerDialog(
-                this,
-                new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        // Update the EditText with the selected date
-                        String selectedDate = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
-                        EditText signup_dob = findViewById(R.id.signup_dob); // Replace with your EditText id
-                        signup_dob.setText(selectedDate);
-                    }
-                },
-                year, month, dayOfMonth);
+        // Create a date picker dialog
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                (view, selectedYear, selectedMonth, selectedDay) -> {
+                    // Handle date selection
+                    String selectedDate = selectedYear + "-" + (selectedMonth + 1) + "-" + selectedDay;
+                    signup_dob.setText(selectedDate);
+                }, year, month, day);
 
         // Show the date picker dialog
         datePickerDialog.show();
     }
+
+
+    private void saveTokenToSharedPreferences(String token) {
+        SharedPreferences.Editor editor = getSharedPreferences("MyPrefs", MODE_PRIVATE).edit();
+        editor.putString("FCMToken", token);
+        editor.apply();
+    }
+
 }
-
-

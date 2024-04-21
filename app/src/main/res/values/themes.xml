@@ -1,9 +1,24 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.SchoolERP" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <!-- Base appl
+        <!- Customize your light theme here. -->
+    <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+    <style name="Base.Theme.SchoolERP" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Define color for status bar -->
+        <item name="android:statusBarColor">@color/yellow</item>
+        <!-- Define color for navigation bar -->
+        <item name="android:navigationBarColor">@color/yellow</item>
     </style>
 
     <style name="Theme.SchoolERP" parent="Base.Theme.SchoolERP" />
+
+    <style name="Theme.SchoolERP.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.SchoolERP.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.SchoolERP.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
+
