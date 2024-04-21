@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:label="@string/menu_home"
+        android:name="com.example.schoolerp.ui.home.HomeFragment"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_result"
+        android:label="@string/result"
+        android:name="com.example.schoolerp.ui.result.ResultFragment"
+        tools:layout="@layout/fragment_result" />
+
+    <fragment
+        android:id="@+id/nav_attendance"
+        android:label="@string/attendance"
+        android:name="com.example.schoolerp.ui.attendance.AttendanceFragment"
+        tools:layout="@layout/fragment_attendance" />
+
+
+    <fragment
+        android:id="@+id/nav_contact"
+        android:label="@string/contact"
+        android:name="com.example.schoolerp.ContactFragment"
+        tools:layout="@layout/fragment_contact" />
+
+    <fragment
+        android:id="@+id/nav_about"
+        android:label="@string/about"
+        android:name="com.example.schoolerp.AboutFragment"
+        tools:layout="@layout/fragment_about" />
+
+
+    <fragment
+        android:id="@+id/nav_logout"
+        android:label="@string/logout"
+        android:name="com.example.schoolerp.LogoutFragment"
+        tools:layout="@layout/fragment_logout" />
+    <fragment
+        android:id="@+id/nav_transport"
+        android:label="@string/transport"
+        android:name="com.example.schoolerp.TransportFragment"
+        tools:layout="@layout/fragment_item_list" />
+    <fragment
+        android:id="@+id/nav_notification"
+        android:name="com.example.schoolerp.NotificationFragment"
+        android:label="@string/notification"
+        tools:layout="@layout/fragment_notification" />
+
+
+
+</navigation>

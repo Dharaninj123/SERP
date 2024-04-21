@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "413614226559",
+    "project_id": "schoolerp-17fff",
+    "storage_bucket": "schoolerp-17fff.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:413614226559:android:792adbb1c2b8e449a0934a",
+        "android_client_info": {
+          "package_name": "com.example.schoolerp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxYnV3FiDw6KQDOrX0iTseD9TCIbAvYaM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

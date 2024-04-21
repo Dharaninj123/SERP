@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "503620037048",
+    "project_id": "serp-c7cca",
+    "storage_bucket": "serp-c7cca.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:503620037048:android:55633d48377c3db7c0074d",
+        "android_client_info": {
+          "package_name": "com.example.schoolerp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkYq6SnEvZL88K_9WBMV--HKEhinpet18"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

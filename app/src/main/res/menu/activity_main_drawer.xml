@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:id="@+id/group1">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/baseline_home_24"
+            android:title="@string/menu_home"/>
+
+        <item
+            android:id="@+id/nav_attendance"
+            android:icon="@drawable/attendance"
+            android:title="@string/attendance"/>
+
+        <item
+            android:id="@+id/nav_notification"
+            android:icon="@drawable/baseline_doorbell_24"
+            android:title="@string/notification"/>
+
+        <item
+            android:id="@+id/nav_result"
+            android:icon="@drawable/baseline_bookmarks_24"
+            android:title="@string/result"/>
+
+        <item
+            android:id="@+id/nav_transport"
+            android:icon="@drawable/baseline_directions_bus_24"
+            android:title="@string/transport"
+            android:onClick="openTransportFragment"/>
+
+        <item
+            android:id="@+id/nav_contact"
+            android:icon="@drawable/baseline_contact_page_24"
+            android:title="@string/contact"/>
+
+    </group>
+
+    <group android:id="@+id/group2">
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/about"
+            android:title="@string/about"/>
+
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/baseline_logout_24"
+            android:title="@string/logout"/>
+    </group>
+</menu>

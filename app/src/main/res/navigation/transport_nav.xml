@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/transport_nav"
+    app:startDestination="@id/routeFragment">
+
+    <fragment
+        android:id="@+id/routeFragment"
+        android:name="com.example.schoolerp.RouteFragment"
+        android:label="fragment_route"
+        tools:layout="@layout/fragment_route" />
+    <fragment
+        android:id="@+id/stopFragment"
+        android:name="com.example.schoolerp.StopFragment"
+        android:label="fragment_stop"
+        tools:layout="@layout/fragment_stop" />
+    <fragment
+        android:id="@+id/trackFragment"
+        android:name="com.example.schoolerp.TrackFragment"
+        android:label="fragment_track"
+        tools:layout="@layout/fragment_track" />
+
+
+</navigation>
