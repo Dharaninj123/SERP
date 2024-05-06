@@ -20,15 +20,11 @@
             android:title="@string/notification"/>
 
         <item
-            android:id="@+id/nav_result"
-            android:icon="@drawable/baseline_bookmarks_24"
-            android:title="@string/result"/>
-
-        <item
             android:id="@+id/nav_transport"
             android:icon="@drawable/baseline_directions_bus_24"
-            android:title="@string/transport"
-            android:onClick="openTransportFragment"/>
+            android:title="@string/transport"/>
+
+
 
         <item
             android:id="@+id/nav_contact"

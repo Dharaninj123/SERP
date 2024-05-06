@@ -24,11 +24,11 @@
 
     <!-- Include the navigation view -->
 
-    <fragment
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/notification"
-        android:name="com.example.schoolerp.NotificationFragment"/>
+<!--    <fragment-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:id="@+id/navigation_view"-->
+<!--        android:name="com.example.schoolerp.ui.home.HomeFragment"/>-->
 
 
 

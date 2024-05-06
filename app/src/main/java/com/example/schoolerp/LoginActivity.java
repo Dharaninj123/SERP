@@ -39,8 +39,9 @@ public class LoginActivity extends AppCompatActivity {
                 forgotPasswordButton = findViewById(R.id.forgotpassword);
                 signup = findViewById(R.id.signup);
 
+                Controller crobj = Controller.getInstance();
                 // Initialize Retrofit service
-                apiService = Controller.getApiService();
+                apiService = crobj.getApiService();
 
                 // Retrieve FCM token and store it in SharedPreferences
                 FirebaseMessaging.getInstance().getToken()
@@ -79,17 +80,18 @@ public class LoginActivity extends AppCompatActivity {
                 forgotPasswordButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                                Intent intent = new Intent(LoginActivity.this, Home_erp.class);
+                                Intent intent = new Intent(LoginActivity.this, SendOTPActivity.class);
                                 startActivity(intent);
                         }
                 });
                 signup.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                                Intent intent = new Intent(LoginActivity.this, SendOTPActivity.class);
+                                Intent intent = new Intent(LoginActivity.this, Home_erp.class);
                                 startActivity(intent);
                         }
                 });
+
         }
 
         private void storeTokenLocally(String token) {
@@ -141,6 +143,12 @@ public class LoginActivity extends AppCompatActivity {
                 editor.apply();
         }
 
+        // Retrieving access token from SharedPreferences
+        private String retrieveAccessToken() {
+                SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+                return sharedPreferences.getString("AccessToken", "");
+        }
+
         private boolean validateInfo(String number, String password) {
                 if (number.isEmpty()) {
                         login_mobile_number.requestFocus();
@@ -187,13 +195,13 @@ public class LoginActivity extends AppCompatActivity {
                 ApiService apiService = Controller.getApiService();
 
                 // Call the API to fetch student details
-                Call<StudentsDetialsResponse> call = apiService.getStudentDetails();
-                call.enqueue(new Callback<StudentsDetialsResponse>() {
+                Call<StudentsDetailsResponse> call = apiService.getStudentDetails();
+                call.enqueue(new Callback<StudentsDetailsResponse>() {
                         @Override
-                        public void onResponse(Call<StudentsDetialsResponse> call, Response<StudentsDetialsResponse> response) {
+                        public void onResponse(Call<StudentsDetailsResponse> call, Response<StudentsDetailsResponse> response) {
                                 if (response.isSuccessful() && response.body() != null) {
                                         // Handle successful response
-                                        StudentsDetialsResponse studentDetails = response.body();
+                                        StudentsDetailsResponse studentDetails = response.body();
                                         String studentName = studentDetails.getName();
                                         // Update UI with student name
                                         updateNavBar(studentName);
@@ -201,7 +209,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
 
                         @Override
-                        public void onFailure(Call<StudentsDetialsResponse> call, Throwable t) {
+                        public void onFailure(Call<StudentsDetailsResponse> call, Throwable t) {
                                 // Handle failure
                                 Toast.makeText(LoginActivity.this, "Failed to fetch student details", Toast.LENGTH_SHORT).show();
                         }

@@ -6,12 +6,11 @@ import android.widget.Toast;
 import com.example.schoolerp.apiservices.ApiService;
 import com.example.schoolerp.controller.Controller;
 import com.example.schoolerp.LoginResponse;
-import com.example.schoolerp.apiservices.ApiService;
-import com.example.schoolerp.SharedPreferencesManager;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
 public class LoginProcess {
 
     private ApiService apiService;
@@ -27,7 +26,7 @@ public class LoginProcess {
     }
 
     public void loginUser(String mob, String password) {
-        // Retrieve the saved token from SharedPreferences
+        // Retrieve the saved token from SharedPreferencesManager
         String token = SharedPreferencesManager.getInstance().getToken();
 
         // Proceed with your login process, including sending the token to the server

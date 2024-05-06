@@ -31,15 +31,36 @@ public class Home_erp extends AppCompatActivity {
 
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+
+        // Initialize navigation components
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_attendance, R.id.nav_transport, R.id.nav_result, R.id.nav_contact, R.id.nav_about, R.id.nav_logout)
+                R.id.nav_home, R.id.nav_attendance, R.id.nav_transport, R.id.nav_contact, R.id.nav_about, R.id.nav_logout)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_home_erp);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        // Check if activity is started from notification
+        handleNotificationIntent(getIntent());
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        handleNotificationIntent(intent);
+    }
+
+    private void handleNotificationIntent(Intent intent) {
+        if (intent != null && intent.hasExtra("notification_action")) {
+            // Check if the notification action is to navigate to NotificationFragment
+            String action = intent.getStringExtra("notification_action");
+            if ("navigate_to_notification_fragment".equals(action)) {
+                // Navigate to NotificationFragment
+                Navigation.findNavController(this, R.id.nav_host_fragment_content_home_erp)
+                        .navigate(R.id.nav_notification);
+            }
+        }
     }
 
     @Override
@@ -50,13 +71,6 @@ public class Home_erp extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.nav_transport) {
-            // Navigate to the TransportFragment when the menu item is selected
-            Navigation.findNavController(this, R.id.nav_host_fragment_content_home_erp)
-                    .navigate(R.id.nav_transport);
-            return true;
-        }
         return super.onOptionsItemSelected(item);
     }
 

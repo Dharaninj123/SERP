@@ -3,8 +3,9 @@ package com.example.schoolerp.controller;
 import android.util.Log;
 
 import com.example.schoolerp.FCMTokenRequest;
-import com.example.schoolerp.SharedPreferencesManager;
+import com.example.schoolerp.MySharedPreferences;
 import com.example.schoolerp.apiservices.ApiService;
+import com.example.schoolerp.StudentsDetailsResponse;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.IOException;
@@ -23,6 +24,9 @@ public class Controller {
     private static Controller instance;
     private Retrofit retrofit;
     private static ApiService apiService;
+    private MySharedPreferences mySharedPreferences;
+
+    OkHttpClient client;
 
     private Controller() {
         // Initialize Retrofit
@@ -32,7 +36,8 @@ public class Controller {
         OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor).build();
 
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.107") // Adjust the base URL accordingly
+                // Ensure the base URL includes the API endpoint
+                .baseUrl("http://192.168.0.109/api/account/") // Adjust the base URL accordingly
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build();
@@ -57,7 +62,7 @@ public class Controller {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null) {
                         String token = task.getResult();
-                        SharedPreferencesManager.getInstance().saveFCMToken(token);
+                        MySharedPreferences.saveString("FCMToken", token);
                         sendTokenToServer(token);
                     }
                 });
@@ -83,49 +88,37 @@ public class Controller {
         });
     }
 
-    public void makeApiCall() {
-        // Create the API call
-        Call<ResponseBody> call = apiService.getStudentDetails("loginUser"); // Pass your authentication token here
+    public void makeApiCall(String accessToken) {
+        // Form the Authorization header
+        String authorizationHeader = "Bearer " + accessToken;
+
+        // Create the API call with the authorization header
+        Call<StudentsDetailsResponse> call = apiService.getStudentDetails(authorizationHeader);
 
         // Enqueue the call asynchronously
-        call.enqueue(new Callback<ResponseBody>() {
+        call.enqueue(new Callback<StudentsDetailsResponse>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.isSuccessful()) {
-                    try {
-                        // Handle successful response
-                        ResponseBody responseBody = response.body();
-                        if (responseBody != null) {
-                            String responseData = responseBody.string();
-                            Log.d("API Response", responseData);
-                            // Parse the response data
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+            public void onResponse(Call<StudentsDetailsResponse> call, Response<StudentsDetailsResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    // Handle successful response
+                    StudentsDetailsResponse studentDetails = response.body();
+                    // Process student details
                 } else {
                     // Handle unsuccessful response
-                    try {
-                        // Parse error response body
-                        if (response.errorBody() != null) {
-                            String errorBody = response.errorBody().string();
-                            Log.e("API Error", errorBody);
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    // Log error or show error message
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<StudentsDetailsResponse> call, Throwable t) {
                 // Handle failure
                 t.printStackTrace();
             }
         });
     }
 
+    // If you need to create an instance of ApiService with a different class
     public ApiService create(Class<ApiService> apiServiceClass) {
-        return null;
+        return retrofit.create(apiServiceClass);
     }
 }

@@ -12,10 +12,10 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_result"
-        android:label="@string/result"
-        android:name="com.example.schoolerp.ui.result.ResultFragment"
-        tools:layout="@layout/fragment_result" />
+        android:id="@+id/nav_transport"
+        android:label="@string/transport"
+        android:name="com.example.schoolerp.TransportFragment"
+        tools:layout="@layout/fragment_transport" />
 
     <fragment
         android:id="@+id/nav_attendance"
@@ -42,11 +42,7 @@
         android:label="@string/logout"
         android:name="com.example.schoolerp.LogoutFragment"
         tools:layout="@layout/fragment_logout" />
-    <fragment
-        android:id="@+id/nav_transport"
-        android:label="@string/transport"
-        android:name="com.example.schoolerp.TransportFragment"
-        tools:layout="@layout/fragment_item_list" />
+  >
     <fragment
         android:id="@+id/nav_notification"
         android:name="com.example.schoolerp.NotificationFragment"

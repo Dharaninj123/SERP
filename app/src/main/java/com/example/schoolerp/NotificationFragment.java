@@ -1,40 +1,25 @@
+// NotificationFragment.java
 package com.example.schoolerp;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.schoolerp.placeholder.PlaceholderContent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class NotificationFragment extends Fragment {
 
-    private static final String ARG_COLUMN_COUNT = "column-count";
-    private int mColumnCount = 1;
+    private RecyclerView recyclerView;
+    private NotificationAdapter notificationAdapter;
+    private List<Notification> notificationList;
 
     public NotificationFragment() {
-    }
-
-    public static NotificationFragment newInstance(int columnCount) {
-        NotificationFragment fragment = new NotificationFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-        }
     }
 
     @Override
@@ -42,14 +27,25 @@ public class NotificationFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_notification, container, false);
 
-        RecyclerView recyclerView = view.findViewById(R.id.itemNumber);
-        if (mColumnCount <= 1) {
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        } else {
-            recyclerView.setLayoutManager(new GridLayoutManager(getContext(), mColumnCount));
-        }
-        recyclerView.setAdapter(new MyitemRecyclerViewAdapter());
+        recyclerView = view.findViewById(R.id.notificationRecyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        // Initialize the notification list
+        notificationList = new ArrayList<>();
+        // Populate the notification list with dummy data
+        populateNotificationList();
+        // Set up the adapter for the RecyclerView
+        notificationAdapter = new NotificationAdapter(getContext(), notificationList);
+        recyclerView.setAdapter(notificationAdapter);
 
         return view;
+    }
+
+    private void populateNotificationList() {
+        // Add dummy notifications to the list
+        for (int i = 1; i <= 10; i++) {
+            Notification notification = new Notification("Topic " + i, "Subject " + i);
+            notificationList.add(notification);
+        }
     }
 }

@@ -28,6 +28,7 @@ import retrofit2.Response;
 public class SignupActivity extends AppCompatActivity {
 
     private EditText signup_name, signup_dob, signup_password, signup_confirm_password;
+    private Button login2,signup_button;
     private Calendar calendar;
     private ApiService apiService;
 
@@ -41,7 +42,7 @@ public class SignupActivity extends AppCompatActivity {
         signup_password = findViewById(R.id.signup_password);
         signup_confirm_password = findViewById(R.id.signup_confirm_password);
 
-        Button signup_button = findViewById(R.id.signup_button);
+        Button signup_btn = findViewById(R.id.signup_button);
         Button login_button = findViewById(R.id.login2);
 
         signup_button.setOnClickListener(new View.OnClickListener() {
@@ -56,12 +57,21 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
-        login_button.setOnClickListener(new View.OnClickListener() {
+        login2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(SignupActivity.this, LoginActivity.class));
+                Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+                startActivity(intent);
             }
         });
+        signup_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SignupActivity.this, Home_erp.class);
+                startActivity(intent);
+            }
+        });
+
 
         signup_dob.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,6 +133,7 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void showDatePickerDialog() {
         calendar = Calendar.getInstance();

@@ -5,45 +5,48 @@ import android.widget.Toast;
 
 import com.example.schoolerp.apiservices.ApiService;
 import com.example.schoolerp.controller.Controller;
+import com.example.schoolerp.StudentsDetailsResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+// Inside your class where you make API calls, e.g., Header class
+
 public class Header {
 
-    private LoginActivity activity;
+    private ApiService apiService;
 
-    public Header(LoginActivity activity) {
-        this.activity = activity;
+    public Header(ApiService apiService) {
+        this.apiService = apiService;
     }
 
-    public void fetchAndDisplayStudentDetails() {
-        // Retrieve access token from SharedPreferences
-        SharedPreferences sharedPreferences = activity.getSharedPreferences("MyPrefs", LoginActivity.MODE_PRIVATE);
-        String accessToken = sharedPreferences.getString("AccessToken", "");
+    public void fetchStudentDetails(String accessToken) {
+        // Form the Authorization header
+        String authorizationHeader = "Bearer " + accessToken;
 
-        // Create an instance of ApiService using Retrofit
-        ApiService apiService = Controller.getApiService();
+        // Make the API call using Retrofit with the authorization header
+        Call<StudentsDetailsResponse> call;
+        call = apiService.getStudentDetails(authorizationHeader);
 
-        // Call the API to fetch student details
-        Call<StudentsDetialsResponse> call = apiService.getStudentDetails();
-        call.enqueue(new Callback<StudentsDetialsResponse>() {
+        // Enqueue the call asynchronously
+        call.enqueue(new Callback<StudentsDetailsResponse>() {
             @Override
-            public void onResponse(Call<StudentsDetialsResponse> call, Response<StudentsDetialsResponse> response) {
+            public void onResponse(Call<StudentsDetailsResponse> call, Response<StudentsDetailsResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     // Handle successful response
-                    StudentsDetialsResponse studentDetails = response.body();
-                    String studentName = studentDetails.getName();
-                    // Update UI with student name
-                    activity.updateNavBar(studentName);
+                    StudentsDetailsResponse studentDetails = response.body();
+                    // Process studentDetails as needed
+                } else {
+                    // Handle unsuccessful response
+                    // You may want to check response codes and handle errors accordingly
                 }
             }
 
             @Override
-            public void onFailure(Call<StudentsDetialsResponse> call, Throwable t) {
+            public void onFailure(Call<StudentsDetailsResponse> call, Throwable t) {
                 // Handle failure
-                Toast.makeText(activity, "Failed to fetch student details", Toast.LENGTH_SHORT).show();
+                // This will be called if the network call fails
             }
         });
     }

@@ -4,66 +4,31 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.ViewPager;
+import com.google.android.material.tabs.TabLayout;
 
-    public class TransportFragment extends Fragment {
+public class TransportFragment extends Fragment {
 
-        public TransportFragment() {
-            // Required empty public constructor
-        }
+    private TabLayout tab;
+    private ViewPager viewPager;
 
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            // Inflate the layout for this fragment
-            View view = inflater.inflate(R.layout.fragment_transport, container, false);
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_transport, container, false);
 
-            // Find the navigation item
-            Button btnRoute = view.findViewById(R.id.routeFragment);
-            Button btnStop = view.findViewById(R.id.stopFragment);
-            Button btnTrack = view.findViewById(R.id.trackFragment);
+        tab = rootView.findViewById(R.id.tabLayout);
+        viewPager = rootView.findViewById(R.id.viewPager);
 
-            // Set OnClickListener for the buttons
-            btnRoute.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    openRouteFragment();
-                }
-            });
+        ViewPagerRouteAdapter adapter = new ViewPagerRouteAdapter(getChildFragmentManager());
+        viewPager.setAdapter(adapter);
 
-            btnStop.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    openStopFragment();
-                }
-            });
+        tab.setupWithViewPager(viewPager);
 
-            btnTrack.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    openTrackFragment();
-                }
-            });
-
-            return view;
-        }
-
-        private void openRouteFragment() {
-            // Implement method to open RouteFragment
-        }
-
-        private void openStopFragment() {
-            // Implement method to open StopFragment
-        }
-
-        private void openTrackFragment() {
-            // Implement method to open TrackFragment
-        }
+        return rootView;
     }
-
-
+}
