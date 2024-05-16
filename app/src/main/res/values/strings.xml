@@ -50,6 +50,7 @@
     <string name="route">Route</string>
     <string name="track">Track</string>
     <dimen name="about_text_size">16sp</dimen>
+    <string name="resend_code">Resend Code (%1$d)</string>
 
     <dimen name="about_margin">5dp</dimen>
     <string name="about_content">
