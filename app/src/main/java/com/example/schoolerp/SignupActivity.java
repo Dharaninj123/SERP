@@ -1,18 +1,24 @@
 package com.example.schoolerp;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
-import java.util.Calendar;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.schoolerp.apiservices.ApiService;
 import com.example.schoolerp.controller.Controller;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -24,14 +30,19 @@ import java.util.Calendar;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class SignupActivity extends AppCompatActivity {
 
-    private EditText signup_name, signup_dob, signup_password, signup_confirm_password;
-    private Button login2,signup_button;
+    private EditText signup_name, signup_dob, signup_password, signup_confirm_password, signup_mobile_number;
+    private Button signup_button;
     private Calendar calendar;
     private ApiService apiService;
+    private int user_type;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,37 +52,30 @@ public class SignupActivity extends AppCompatActivity {
         signup_dob = findViewById(R.id.signup_dob);
         signup_password = findViewById(R.id.signup_password);
         signup_confirm_password = findViewById(R.id.signup_confirm_password);
-
-        Button signup_btn = findViewById(R.id.signup_button);
+        signup_mobile_number=findViewById(R.id.signup_mobile_number);
+        signup_button = findViewById(R.id.signup_button);
         Button login_button = findViewById(R.id.login2);
 
         signup_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String name = signup_name.getText().toString().trim();
-                String dob = signup_dob.getText().toString().trim();
+                String first_name = signup_name.getText().toString().trim();
+                String date_of_birth = signup_dob.getText().toString().trim();
                 String password = signup_password.getText().toString().trim();
-                String confirmPassword = signup_confirm_password.getText().toString().trim();
+                String password2 = signup_confirm_password.getText().toString().trim();
+                String mobile_number= signup_mobile_number.getText().toString().trim();
 
-                validateInfo(name, dob, password, confirmPassword);
+                validateInfo(first_name, date_of_birth, password, password2, mobile_number);
             }
         });
 
-        login2.setOnClickListener(new View.OnClickListener() {
+        login_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
         });
-        signup_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(SignupActivity.this, Home_erp.class);
-                startActivity(intent);
-            }
-        });
-
 
         signup_dob.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,41 +99,51 @@ public class SignupActivity extends AppCompatActivity {
                         }
                     }
                 });
+
+        // Apply blink animation to the signup button
+        Animation blinkAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.blink_animation);
+        signup_button.startAnimation(blinkAnimation);
     }
 
-    private void validateInfo(String name, String dob, String password, String confirmPassword) {
-        if (TextUtils.isEmpty(name) || TextUtils.isEmpty(dob) || TextUtils.isEmpty(password) || TextUtils.isEmpty(confirmPassword)) {
-            Toast.makeText(this, "All fields are required", Toast.LENGTH_SHORT).show();
-        } else if (!password.equals(confirmPassword)) {
-            Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+    private void validateInfo(String first_name, String date_of_birth, String password, String password2, String mobile_number) {
+        if (TextUtils.isEmpty(first_name) || TextUtils.isEmpty(date_of_birth) || TextUtils.isEmpty(password) || TextUtils.isEmpty(password2)) {
+            showCustomToast("All fields are required", 0xFFFF0000); // Red color
+        } else if (!password.equals(password2)) {
+            showCustomToast("Passwords do not match", 0xFFFF0000); // Red color
         } else {
             // If all validations pass, perform signup
-            signup(name, dob, password);
+            signup(first_name, date_of_birth, password, password2, mobile_number, user_type);
         }
     }
 
-    private void signup(String name, String dob, String password) {
-        SignupRequest signupRequest = new SignupRequest();
-        signupRequest.setName(name);
-        signupRequest.setDob(dob);
-        signupRequest.setPassword(password);
-
+    private void signup(String first_name, String date_of_birth, String password, String password2, String mobile_number, int user_type) {
         // Call the signup API using Retrofit
-        Call<SignupResponse> signupResponseCall = apiService.signupUser(signupRequest);
+        Call<SignupResponse> signupResponseCall = apiService.signupUser(first_name, date_of_birth, password, password2, mobile_number,2);
         signupResponseCall.enqueue(new Callback<SignupResponse>() {
             @Override
             public void onResponse(Call<SignupResponse> call, Response<SignupResponse> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(SignupActivity.this, "Signup Successful", Toast.LENGTH_SHORT).show();
-                    // You can add additional logic here such as starting a new activity or updating UI
+                    showCustomToast("Signup Successful", 0xFF00FF00); // Green color
+                    // Navigate to Home_erp activity on successful signup
+                    Intent intent = new Intent(SignupActivity.this, Home_erp.class);
+                    startActivity(intent);
+                    finish();
                 } else {
-                    Toast.makeText(SignupActivity.this, "Signup Failed", Toast.LENGTH_SHORT).show();
+                    try {
+                        // Parse the error response
+                        String errorMessage = response.errorBody().string();
+                        showCustomToast("Signup Failed: " + errorMessage, 0xFFFF0000); // Red color
+                    } catch (Exception e) {
+                        // Handle any errors that may occur while parsing the error response
+                        showCustomToast("Signup Failed: An error occurred", 0xFFFF0000); // Red color
+                        e.printStackTrace();
+                    }
                 }
             }
 
             @Override
             public void onFailure(Call<SignupResponse> call, Throwable t) {
-                Toast.makeText(SignupActivity.this, "Signup Failed" , Toast.LENGTH_SHORT).show();
+                showCustomToast("Signup Failed: " + t.getMessage(), 0xFFFF0000); // Red color
             }
         });
     }
@@ -144,15 +158,21 @@ public class SignupActivity extends AppCompatActivity {
         // Create a date picker dialog
         DatePickerDialog datePickerDialog = new DatePickerDialog(this,
                 (view, selectedYear, selectedMonth, selectedDay) -> {
-                    // Handle date selection
-                    String selectedDate = selectedYear + "-" + (selectedMonth + 1) + "-" + selectedDay;
-                    signup_dob.setText(selectedDate);
+                    // Create a Calendar object and set the selected date
+                    Calendar selectedDate = Calendar.getInstance();
+                    selectedDate.set(selectedYear, selectedMonth, selectedDay);
+
+                    // Format the date to YYYY-MM-DD
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+                    String formattedDate = sdf.format(selectedDate.getTime());
+
+                    // Set the formatted date to the EditText
+                    signup_dob.setText(formattedDate);
                 }, year, month, day);
 
         // Show the date picker dialog
         datePickerDialog.show();
     }
-
 
     private void saveTokenToSharedPreferences(String token) {
         SharedPreferences.Editor editor = getSharedPreferences("MyPrefs", MODE_PRIVATE).edit();
@@ -160,4 +180,25 @@ public class SignupActivity extends AppCompatActivity {
         editor.apply();
     }
 
+    private void showCustomToast(String message, int textColor) {
+        // Inflate the custom layout
+        LayoutInflater inflater = getLayoutInflater();
+        View toastView = inflater.inflate(R.layout.custom_toast, null);
+
+        // Find the TextView from the custom layout and set the message
+        TextView toastText = toastView.findViewById(R.id.toast_text);
+        toastText.setText(message);
+        toastText.setTextColor(textColor); // Set the text color
+
+        // Create the Toast and set its properties
+        Toast customToast = new Toast(getApplicationContext());
+        customToast.setDuration(Toast.LENGTH_SHORT);
+        customToast.setView(toastView);
+
+        // Set the position of the Toast (optional)
+        customToast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 100);
+
+        // Show the Toast
+        customToast.show();
+    }
 }

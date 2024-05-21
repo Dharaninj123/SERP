@@ -37,7 +37,7 @@ public class Controller {
 
         retrofit = new Retrofit.Builder()
                 // Ensure the base URL includes the API endpoint
-                .baseUrl("http://192.168.0.106/api/account/") // Adjust the base URL accordingly
+                .baseUrl("http://192.168.0.102/api/account/") // Adjust the base URL accordingly
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build();

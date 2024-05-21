@@ -14,7 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-
     <!-- Main content layout -->
     <FrameLayout
         android:id="@+id/main_content"
@@ -23,15 +22,6 @@
         android:layout_below="@id/app_bar_home_erp" />
 
     <!-- Include the navigation view -->
-
-<!--    <fragment-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:id="@+id/navigation_view"-->
-<!--        android:name="com.example.schoolerp.ui.home.HomeFragment"/>-->
-
-
-
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
@@ -40,7 +30,7 @@
         android:fitsSystemWindows="true"
         android:background="@color/white"
         app:headerLayout="@layout/nav_header_home_erp"
-        app:menu="@menu/activity_main_drawer" />
-
+        app:menu="@menu/activity_main_drawer"
+        app:itemBackground="@drawable/menu_item_background" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

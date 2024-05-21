@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -49,6 +51,10 @@ public class VerifyOTPActivity extends AppCompatActivity {
         buttonVerify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Apply blink animation to the button
+                Animation blinkAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.blink_animation);
+                buttonVerify.startAnimation(blinkAnimation);
+
                 String code1 = inputCode1.getText().toString().trim();
                 String code2 = inputCode2.getText().toString().trim();
                 String code3 = inputCode3.getText().toString().trim();
@@ -70,11 +76,12 @@ public class VerifyOTPActivity extends AppCompatActivity {
     private void verifyOTP(String otp) {
         // Initialize Retrofit service
         ApiService apiService = Controller.getApiService();
+        String mobileNumber = getIntent().getStringExtra("mobileNumber");
         // Call the API to verify OTP
-        Call<Void> call = apiService.verifyOTP(otp);
-        call.enqueue(new Callback<Void>() {
+        Call<SendOTPResponse> call = apiService.verifyOTP(mobileNumber,otp);
+        call.enqueue(new Callback<SendOTPResponse>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(Call<SendOTPResponse> call, Response<SendOTPResponse> response) {
                 if (response.isSuccessful()) {
                     // OTP verification successful, proceed to SignupActivity
                     Intent intent = new Intent(VerifyOTPActivity.this, SignupActivity.class);
@@ -86,7 +93,7 @@ public class VerifyOTPActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call<SendOTPResponse> call, Throwable t) {
                 // Error occurred while verifying OTP, display error message
                 Toast.makeText(VerifyOTPActivity.this, "Failed to verify OTP. Please try again.", Toast.LENGTH_SHORT).show();
             }

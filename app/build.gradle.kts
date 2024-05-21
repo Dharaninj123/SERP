@@ -46,6 +46,9 @@ dependencies {
     implementation ("me.biubiubiu.justifytext:library:1.1")
     implementation  ("com.squareup.okhttp3:okhttp:4.9.1")
     implementation ("com.squareup.okhttp3:logging-interceptor:4.9.1")
+    implementation ("com.google.firebase:firebase-messaging:20.2.4")
+    implementation ("androidx.appcompat:appcompat:1.2.0")
+    implementation ("androidx.core:core-ktx:1.3.2")
     implementation(libs.lifecycle.livedata.ktx)
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.navigation.fragment)
@@ -60,6 +63,9 @@ dependencies {
     implementation("com.google.gms.google-services:com.google.gms.google-services.gradle.plugin:4.4.1")
     implementation("com.google.firebase:firebase-messaging:23.4.1")
     implementation("com.google.android.material:material:1.11.0")
+    implementation ("com.google.android.gms:play-services-maps:18.0.2")
+
+
 
 
 }

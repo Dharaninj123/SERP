@@ -24,13 +24,10 @@
             android:icon="@drawable/baseline_directions_bus_24"
             android:title="@string/transport"/>
 
-
-
         <item
             android:id="@+id/nav_contact"
             android:icon="@drawable/baseline_contact_page_24"
             android:title="@string/contact"/>
-
     </group>
 
     <group android:id="@+id/group2">

@@ -7,17 +7,16 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 import android.widget.TextView;
-
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.schoolerp.apiservices.ApiService;
 import com.example.schoolerp.controller.Controller;
 import com.google.firebase.messaging.FirebaseMessaging;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -57,9 +56,15 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                         });
 
+                // Load the blink animation
+                Animation blinkAnimation = AnimationUtils.loadAnimation(this, R.anim.blink_animation);
+
                 loginButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                                // Start the blink animation
+                                view.startAnimation(blinkAnimation);
+
                                 String mobile_number = login_mobile_number.getText().toString().trim();
                                 String password = login_password.getText().toString().trim();
 
@@ -84,14 +89,14 @@ public class LoginActivity extends AppCompatActivity {
                                 startActivity(intent);
                         }
                 });
+
                 signup.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                                Intent intent = new Intent(LoginActivity.this, SendOTPActivity.class);
+                                Intent intent = new Intent(LoginActivity.this, Home_erp.class);
                                 startActivity(intent);
                         }
                 });
-
         }
 
         private void storeTokenLocally(String token) {
@@ -106,7 +111,7 @@ public class LoginActivity extends AppCompatActivity {
                 loginRequest.setMobile_number(mobile_number);
                 loginRequest.setPassword(password);
 
-                Call<LoginResponse> loginResponseCall = apiService.loginUser(loginRequest);
+                Call<LoginResponse> loginResponseCall = apiService.loginUser(mobile_number, password);
                 loginResponseCall.enqueue(new Callback<LoginResponse>() {
                         @Override
                         public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
@@ -114,14 +119,14 @@ public class LoginActivity extends AppCompatActivity {
                                         Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
                                         LoginResponse loginResponse = response.body();
                                         // Store access token securely
-                                        storeAccessToken(loginResponse.getAccessToken());
+                                        storeAccessToken(loginResponse.getAccess());
                                         // Fetch and display student details
                                         fetchAndDisplayStudentDetails();
                                         // Start HomeActivity with data after a delay
                                         new Handler().postDelayed(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                        startActivity(new Intent(LoginActivity.this, Home_erp.class).putExtra("data", loginResponse.getMobile_number()));
+                                                        startActivity(new Intent(LoginActivity.this, Home_erp.class));
                                                 }
                                         }, 700);
                                 } else {
@@ -131,7 +136,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         @Override
                         public void onFailure(Call<LoginResponse> call, Throwable t) {
-                                Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, "Login Failed" + t.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                 });
         }

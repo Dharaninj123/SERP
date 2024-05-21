@@ -21,16 +21,23 @@
         app:srcCompat="@drawable/baseline_account_circle_24" />
 
     <EditText
+        android:id="@+id/nameView"
         android:layout_width="match_parent"
         android:layout_height="25dp"
-        android:id="@+id/nameView"
         android:background="@color/transparent"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:text="@string/name"
         android:textColor="@color/black"
         android:textStyle="bold"
         android:textSize="16sp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:inputType="none"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:clickable="false"
+        android:longClickable="false"
+        android:cursorVisible="false"
+        android:importantForAccessibility="no" />
 
     <EditText
         android:id="@+id/numberView"
@@ -41,5 +48,12 @@
         android:text="@string/mobile_number"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@color/black"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:inputType="none"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:clickable="false"
+        android:longClickable="false"
+        android:cursorVisible="false"
+        android:importantForAccessibility="no" />
 </LinearLayout>

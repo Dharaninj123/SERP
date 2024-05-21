@@ -53,24 +53,23 @@
     <string name="resend_code">Resend Code (%1$d)</string>
 
     <dimen name="about_margin">5dp</dimen>
-    <string name="about_content">
+    <string name="about_paragraph1">
         Welcome to School ERP, your all-in-one solution for managing school
-        operations efficiently and effectively. Our platform is designed to streamline administrative.
-        tasks, enhance communication between stakeholders, and provide valuable insights to improve decision-making.\n
-        Our Mission is to empower educational institutions with innovative technology solutions that simplify management
-        processes and enable them to focus on what matters most:educating and nurturing students.\n
-        Student Management: Easily manage student admissions, registrations, attendance, and academic records.
-        Efficiently handle teacher assignments, payroll and performance evaluations.\n
-        Parent Portal: Provide parents with access to their children academic progress, attendance records, and important announcements.\n
-        Attendance Tracking: Track student and staff attendance with ease using our intuitive attendance management system.\n
-        Academic Reporting: Generate detailed academic reports, including grades, progress reports and transcripts.\n
-        Communication Tools: Facilitate communication between administrators, teachers, students, and parents through in-app messaging, notifications, and announcements.\n
-        Data Analytics: Gain valuable insights into school performance, student outcomes, and resource utilization through advanced analytics and reporting tools. \n
+        operations efficiently and effectively.Our platform is designed to streamline administrative tasks, enhance communication between stakeholders and provide valuable insights to improve decision-making.\n  </string>
+    <string name="about_paragraph2"> Our Mission is to empower educational institutions with innovative technology solutions that simplify management
+        processes and enable them to focus on what matters most is to educating and nurturing students.\n</string>
+    <string name="about_paragraph3"> Student Management: Easily manage student admissions, registrations, attendance, and academic records.
+        Efficiently handle teacher assignments,payroll and performance evaluations.\n</string>
+    <string name="about_paragraph4"> Parent Portal: Provide parents with access to their children academic progress, attendance records and important announcements.\n</string>
+    <string name="about_paragraph5">Attendance Tracking: Track student and staff attendance with ease using our intuitive attendance management system.\n</string>
+    <string name="about_paragraph6">Academic Reporting: Generate detailed academic reports, including grades, progress reports and transcripts.\n</string>
+    <string name="about_paragraph7"> Communication Tools: Facilitate communication between administrators, teachers, students, and parents through in-app messaging, notifications, and announcements.\n</string>
+    <string name="about_paragraph8"> Data Analytics: Gain valuable insights into school performance, student outcomes, and resource utilization through advanced analytics and reporting tools. \n</string>
         Our dedicated team of developers, designers, and educators is committed to delivering the best possible experience for our users. We continuously strive
         to enhance our platform with new features and improvements based on user feedback and industry best practices. \n
-        Contact Us: Have questions or feedback? We had love to hear from you! Contact our support team at support@schoolerp.com or visit our website at www.schoolerp.com for more information.
+    <string name="about_paragraph9">Contact Us: Have questions or feedback? We had love to hear from you! Contact our support team at support@schoolerp.com or visit our website at www.schoolerp.com for more information.</string>
 
-       </string>
+
     <string name="introduction">Introduction</string>
     <string name="forgot_password">Forgot Password?</string>
 

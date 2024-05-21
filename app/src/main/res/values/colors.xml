@@ -7,6 +7,10 @@
     <color name="purple">#171313</color>
     <color name="darkyellow">#FFC107</color>
     <color name="transparent">#00000000</color>
+    <style name="NavigationViewItemStyle">
+        <item name="android:background">@drawable/menu_item_background</item>
+    </style>
+
 
 </resources>
 

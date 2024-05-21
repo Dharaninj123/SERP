@@ -8,26 +8,119 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        tools:context=".AboutFragment">
+        tools:context=".AboutFragment"
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/about_heading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginBottom="16dp"
             android:text="@string/introduction"
             android:textSize="20sp"
+            android:textColor="@color/black"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/about_text"
+            android:id="@+id/about_paragraph1"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="2dp"
+            android:justificationMode="inter_word"
+            android:text="@string/about_paragraph1"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/about_paragraph2"
+            android:layout_width="wrap_content"
+            android:layout_height="70dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="2dp"
+            android:justificationMode="inter_word"
+            android:text="@string/about_paragraph2"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/about_paragraph3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="2dp"
             android:justificationMode="inter_word"
-            android:lineSpacingExtra="2dp"
-            android:textSize="12sp"
-            android:text="@string/about_content" />
+            android:text="@string/about_paragraph3"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/about_paragraph4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="2dp"
+            android:justificationMode="inter_word"
+            android:text="@string/about_paragraph4"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/about_paragraph5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="2dp"
+            android:justificationMode="inter_word"
+            android:text="@string/about_paragraph5"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/about_paragraph6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="2dp"
+            android:justificationMode="inter_word"
+            android:text="@string/about_paragraph6"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/about_paragraph7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="2dp"
+            android:justificationMode="inter_word"
+            android:text="@string/about_paragraph7"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/about_paragraph8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="2dp"
+            android:justificationMode="inter_word"
+            android:text="@string/about_paragraph8"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/about_paragraph9"
+            android:layout_width="wrap_content"
+            android:layout_height="59dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="2dp"
+            android:justificationMode="inter_word"
+            android:text="@string/about_paragraph9"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <!-- Add more TextViews for additional paragraphs -->
 
     </LinearLayout>
 </ScrollView>

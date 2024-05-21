@@ -1,7 +1,10 @@
 package com.example.schoolerp;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -43,6 +46,20 @@ public class Home_erp extends AppCompatActivity {
 
         // Check if activity is started from notification
         handleNotificationIntent(getIntent());
+
+        // Set the text color and background drawable for each menu item
+        Menu menu = navigationView.getMenu();
+        for (int i = 0; i < menu.size(); i++) {
+            MenuItem menuItem = menu.getItem(i);
+            SpannableString s = new SpannableString(menuItem.getTitle());
+            s.setSpan(new ForegroundColorSpan(Color.BLACK), 0, s.length(), 0);
+            menuItem.setTitle(s);
+
+            // Setting the background drawable
+            if (menuItem.getActionView() != null) {
+                menuItem.getActionView().setBackgroundResource(R.drawable.menu_item_background);
+            }
+        }
     }
 
     @Override

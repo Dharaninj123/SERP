@@ -1,9 +1,8 @@
 package com.example.schoolerp.apiservices;
 
 import com.example.schoolerp.FCMTokenRequest;
-import com.example.schoolerp.LoginRequest;
 import com.example.schoolerp.LoginResponse;
-import com.example.schoolerp.SignupRequest;
+import com.example.schoolerp.SendOTPResponse;
 import com.example.schoolerp.SignupResponse;
 import com.example.schoolerp.StudentsDetailsResponse;
 import com.example.schoolerp.apiservices.modelclass.Post;
@@ -20,14 +19,18 @@ import retrofit2.http.Header;
 
 public interface ApiService {
 
-    @GET("posts/{user_id}")
-    Call<Post> getPost(@Path("user_id") int postId);
+    @GET("posts/{2}")
+    Call<Post> getPost(@Path("user_type") int postId);
 
-    @POST("api/account/register/")
-    Call<SignupResponse> signupUser(@Body SignupRequest SignupRequest);
 
-    @POST("/login/")
-    Call<LoginResponse> loginUser(@Body LoginRequest loginRequest);
+    @FormUrlEncoded
+    @POST("register/")
+    Call<SignupResponse> signupUser (@Field("first_name") String first_name,@Field("mobile_number") String mobile_number, @Field("date_of_birth") String date_of_birth, @Field("password") String password,@Field("password2") String password2,@Field("user_type") int user_type);
+
+
+    @FormUrlEncoded
+    @POST("login/")
+    Call<LoginResponse> loginUser (@Field("username") String username,@Field("password") String password);
 
     @POST("save-token")
     Call<Void> saveFCMToken(@Body FCMTokenRequest tokenRequest);
@@ -35,12 +38,15 @@ public interface ApiService {
     @POST("storeToken")
     Call<Void> sendToken(@Body FCMTokenRequest tokenRequest);
 
-    @GET("api/account/generate-otp/")
-    Call<Void> sendOTP(@Query("mobile_number") String mobileNumber);
+    @FormUrlEncoded
+    @POST("generate-otp/")
+    Call<SendOTPResponse> sendOTP(@Field("mobile_number") String mobile_number);
 
     @FormUrlEncoded
-    @POST("api/account/validate-otp/")
-    Call<Void> verifyOTP(@Field("otp") String otp);
+    @POST("validate-otp/")
+    Call<SendOTPResponse> verifyOTP(@Field("otp") String otp,@Field("mobile_number") String mobile_number);
+
+
 
     @GET("student-details")
     Call<StudentsDetailsResponse> getStudentDetails();
@@ -49,4 +55,7 @@ public interface ApiService {
     Call<StudentsDetailsResponse> getStudentDetails(@Header("Authorization") String authorizationHeader);
 
     Call<LoginResponse> loginUser(String mob, String password, String token);
+
+
+
 }

@@ -10,7 +10,6 @@
     android:orientation="vertical"
     tools:context=".SignupActivity">
 
-
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,10 +37,10 @@
             <EditText
                 android:id="@+id/signup_name"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_marginTop="40dp"
-                android:backgroundTint="@color/white"
                 android:background="@color/white"
+                android:backgroundTint="@color/white"
                 android:drawableStart="@drawable/baseline_person_24"
                 android:drawablePadding="8dp"
                 android:hint="@string/name"
@@ -52,9 +51,29 @@
                 android:textColorHint="@color/grey" />
 
             <EditText
+                android:id="@+id/signup_mobile_number"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/white"
+                android:backgroundTint="@color/white"
+                android:drawableStart="@drawable/baseline_local_phone_24"
+                android:drawablePadding="8dp"
+                android:hint="@string/mobile_number"
+                android:autofillHints="Mobile number"
+                android:inputType="number"
+                android:padding="8dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey"
+                app:counterEnabled="true"
+                app:counterMaxLength="10"
+                app:endIconMode="clear_text"/>
+
+
+            <EditText
                 android:id="@+id/signup_dob"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_marginTop="20dp"
                 android:autofillHints="dob"
                 android:background="@color/white"
@@ -62,19 +81,19 @@
                 android:drawableStart="@drawable/baseline_date_range_24"
                 android:drawablePadding="8dp"
                 android:hint="@string/dob"
-                android:inputType="number"
-                android:onClick="showDatePickerDialog"
+                android:inputType="date"
                 android:padding="8dp"
                 android:textColor="@color/black"
                 android:textColorHint="@color/grey" />
 
+
             <EditText
                 android:id="@+id/signup_password"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_marginTop="20dp"
-                android:backgroundTint="@color/white"
                 android:background="@color/white"
+                android:backgroundTint="@color/white"
                 android:drawableStart="@drawable/baseline_lock_24"
                 android:drawablePadding="8dp"
                 android:hint="@string/password"
@@ -84,15 +103,15 @@
                 android:textColor="@color/black"
                 android:textColorHint="@color/grey"
                 app:counterEnabled="true"
-                app:counterMaxLength="16"/>
+                app:counterMaxLength="16" />
 
             <EditText
                 android:id="@+id/signup_confirm_password"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_marginTop="20dp"
-                android:backgroundTint="@color/white"
                 android:background="@color/white"
+                android:backgroundTint="@color/white"
                 android:drawableStart="@drawable/baseline_lock_person_24"
                 android:drawablePadding="8dp"
                 android:hint="@string/confirm_password"
@@ -109,12 +128,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="30dp"
+                android:backgroundTint="@color/black"
                 android:text="@string/signup"
                 android:textColor="@color/white"
-                android:backgroundTint="@color/black"
                 android:textSize="18sp" />
-
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -128,25 +145,22 @@
                     android:layout_height="wrap_content"
                     android:text="@string/already_have_an_account"
                     android:textColor="@color/black"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp" />
 
                 <Button
                     android:id="@+id/login2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="1dp"
+                    android:background="@color/transparent"
                     android:text="@string/login"
                     android:textColor="@color/black"
-                    android:background="@color/transparent"
-                    android:paddingEnd="40dp"
                     android:textSize="12sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
-
         </LinearLayout>
-
 
     </androidx.cardview.widget.CardView>
 

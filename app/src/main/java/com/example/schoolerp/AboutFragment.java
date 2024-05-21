@@ -22,11 +22,12 @@ public class AboutFragment extends Fragment {
 
         // Initialize TextViews
         aboutHeading = rootView.findViewById(R.id.about_heading);
-        aboutText = rootView.findViewById(R.id.about_text);
+        aboutText = rootView.findViewById(R.id.about_paragraph1);
+
 
         // Set text
         aboutHeading.setText(getString(R.string.introduction));
-        aboutText.setText(getString(R.string.about_content));
+        aboutText.setText(getString(R.string.about_paragraph1));
 
         return rootView;
     }
